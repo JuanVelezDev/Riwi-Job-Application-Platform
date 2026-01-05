@@ -9,6 +9,7 @@ export class ChatbotService {
 
     constructor(private configService: ConfigService) {
         this.apiKey = this.configService.get<string>('OPENAI_API_KEY') || '';
+        console.log('ChatbotService initialized. API Key present:', !!this.apiKey, 'Length:', this.apiKey.length);
     }
 
     async getResponse(message: string) {
