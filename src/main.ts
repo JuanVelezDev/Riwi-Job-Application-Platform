@@ -14,6 +14,7 @@ async function bootstrap() {
   // Global Config
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   app.useGlobalInterceptors(new TransformInterceptor());
+  app.setGlobalPrefix('api');
 
   // Swagger Config
   const config = new DocumentBuilder()
