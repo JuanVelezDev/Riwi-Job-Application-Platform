@@ -14,7 +14,9 @@ import { join } from 'path';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    rootPath: join(__dirname, '..', 'client'),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'client'),
+    }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
