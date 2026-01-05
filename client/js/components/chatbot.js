@@ -58,7 +58,7 @@ export class Chatbot {
             // Let's use fetch directly or fix imports. Given ApiService is in services/api.js.
             // To ensure it works, I'll use ApiService via import.
 
-            const response = await fetch('/chatbot/message', {
+            const response = await fetch('/api/chatbot/message', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: input })
