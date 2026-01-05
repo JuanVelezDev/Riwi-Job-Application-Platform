@@ -16,7 +16,7 @@ import { join } from 'path';
     ConfigModule.forRoot({ isGlobal: true }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'client'),
-      exclude: ['/api/(.*)'],
+      exclude: ['/api/:path*'],
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
