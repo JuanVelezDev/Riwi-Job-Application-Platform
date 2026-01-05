@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TalentRidge | Job Platform</title>
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="./js/config/tailwind.config.js"></script>
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+
+<body class="bg-gray-50 text-gray-800 min-h-screen relative overflow-x-hidden">
+
+    <!-- NOTIFICATION TOAST -->
+    <div id="toast" class="fixed top-5 right-5 z-[60] transform -translate-y-20 opacity-0 transition-all duration-300">
+        <div
+            class="bg-white text-gray-800 px-6 py-4 rounded-xl shadow-2xl flex items-center gap-4 border-l-4 border-[#6B5CFF]">
+            <div id="toast-icon"></div>
+            <div>
+                <h4 id="toast-title" class="font-bold text-sm"></h4>
+                <p id="toast-msg" class="text-xs text-gray-500"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTAINER -->
+    <div id="app" class="relative font-sans">
+
+        <!-- NAVBAR (Shared) -->
+        <nav class="bg-white sticky top-0 z-50 shadow-sm border-b border-gray-100">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-12 h-20 flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center cursor-pointer" onclick="window.location.reload()">
+                    <img src="./assets/logo.png" alt="Riwi Logo" class="h-10 hover:opacity-90 transition">
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center gap-8 font-medium text-gray-600 text-sm">
+                    <a href="#" class="text-[#6B5CFF] hover:text-[#5a4cf0]">Inicio</a>
+                    <a href="#" class="hover:text-[#6B5CFF] transition">Empresas</a>
+                    <a href="#" class="hover:text-[#6B5CFF] transition">Coders</a>
+                    <a href="#" class="hover:text-[#6B5CFF] transition">Coworking</a>
+                    <a href="#" class="hover:text-[#6B5CFF] transition">Nosotros</a>
+                </div>
+
+                <!-- Auth / User -->
+                <div id="nav-auth-container">
+                    <!-- Logged Out State -->
+                    <button id="nav-login-btn"
+                        class="bg-[#FB6962] hover:bg-[#ff554d] text-white px-6 py-2.5 rounded-full font-bold text-sm transition shadow-lg shadow-orange-200">
+                        Login
+                    </button>
+                    <!-- Logged In State (Hidden by default) -->
+                    <div id="nav-user-info" class="hidden flex items-center gap-4">
+                        <div class="text-right hidden lg:block">
+                            <p id="user-name" class="text-sm font-bold text-gray-900 leading-tight"></p>
+                            <p id="user-role" class="text-xs text-[#6B5CFF] font-medium"></p>
+                        </div>
+                        <button id="logout-btn" class="p-2 text-gray-400 hover:text-red-500 transition">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
+                                </path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- LANDING PAGE VIEW -->
+        <div id="landing-page">
+
+            <!-- HERO SECTION -->
+            <header
+                class="relative bg-gradient-to-br from-[#4F39F6] to-[#8C52FF] min-h-[650px] flex items-center overflow-visible">
+                <!-- Background Pattern -->
+                <div class="absolute inset-0 opacity-10"
+                    style="background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 30px 30px;">
+                </div>
+
+                <div
+                    class="container mx-auto px-4 sm:px-6 lg:px-12 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div class="text-center lg:text-left text-white space-y-8 pt-10 lg:pt-0">
+                        <h1 class="text-4xl lg:text-6xl font-extrabold leading-tight tracking-tight">
+                            Impulsamos talento TI de <br /><span class="text-[#A5F3FC]">Colombia</span> para el mundo
+                        </h1>
+                        <p class="text-lg lg:text-xl text-indigo-100 max-w-2xl mx-auto lg:mx-0 font-medium">
+                            Entrenamiento intensivo en desarrollo de software, inglés y habilidades socioemocionales.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                            <button
+                                class="bg-[#FB6962] hover:bg-[#ff554d] text-white px-8 py-3.5 rounded-full font-bold shadow-xl hover:shadow-2xl transition transform hover:-translate-y-1">
+                                Para Empresas
+                            </button>
+                            <button
+                                class="bg-white/10 hover:bg-white/20 text-white border border-white/30 px-8 py-3.5 rounded-full font-bold backdrop-blur-sm transition">
+                                Para Coders
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Custom Hero Image -->
+                    <div class="relative hidden lg:block h-[500px] w-full mt-10 lg:mt-0">
+                        <!-- Main Hero Image -->
+                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Team working"
+                            class="absolute top-0 right-0 w-full h-full object-cover rounded-[3rem] shadow-2xl z-10 border-4 border-white/20 rotate-1 hover:rotate-0 transition duration-500">
+
+                        <!-- Floating Badge -->
+
+                    </div>
+                </div>
+            </header>
+
+            <!-- FEATURES / SERVICES -->
+            <section class="py-24 bg-white">
+                <div class="container mx-auto px-4 sm:px-6 lg:px-12">
+                    <div class="text-center mb-20">
+                        <h2 class="text-[#000000] text-3xl lg:text-5xl font-extrabold mb-4">¿Por qué Riwi?</h2>
+                        <div class="w-24 h-2 bg-[#FB6962] mx-auto rounded-full"></div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                        <!-- Card 1 -->
+                        <div
+                            class="rounded-[2.5rem] hover:shadow-2xl transition duration-300 border border-gray-100 overflow-hidden group bg-white">
+                            <div class="h-64 overflow-hidden relative">
+                                <div class="absolute inset-0 bg-[#FB6962]/10 z-10"></div>
+                                <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                    class="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                                    alt="Training">
+                            </div>
+                            <div class="p-10 text-center flex flex-col items-center relative">
+                                <div
+                                    class="w-20 h-20 -mt-20 mb-6 rounded-2xl bg-white shadow-xl flex items-center justify-center text-[#FB6962] z-20 relative transform group-hover:-translate-y-2 transition duration-300">
+                                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <h3 class="text-2xl font-bold text-gray-900 mb-4">Entrenamiento TI</h3>
+                                <p class="text-gray-500 text-base leading-relaxed">Programa intensivo diseñado para
+                                    romper brechas y crear oportunidades reales.</p>
+                            </div>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div
+                            class="rounded-[2.5rem] hover:shadow-2xl transition duration-300 border border-gray-100 overflow-hidden group bg-white">
+                            <div class="h-64 overflow-hidden relative">
+                                <div class="absolute inset-0 bg-[#6B5CFF]/10 z-10"></div>
+                                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                    class="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                                    alt="Solutions">
+                            </div>
+                            <div class="p-10 text-center flex flex-col items-center relative">
+                                <div
+                                    class="w-20 h-20 -mt-20 mb-6 rounded-2xl bg-white shadow-xl flex items-center justify-center text-[#6B5CFF] z-20 relative transform group-hover:-translate-y-2 transition duration-300">
+                                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                                    </svg>
+                                </div>
+                                <h3 class="text-2xl font-bold text-gray-900 mb-4">Soluciones Tech</h3>
+                                <p class="text-gray-500 text-base leading-relaxed">Software de vanguardia desarrollado
+                                    por equipos ágiles y altamente capacitados.</p>
+                            </div>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div
+                            class="rounded-[2.5rem] hover:shadow-2xl transition duration-300 border border-gray-100 overflow-hidden group bg-white">
+                            <div class="h-64 overflow-hidden relative">
+                                <div class="absolute inset-0 bg-teal-500/10 z-10"></div>
+                                <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                    class="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                                    alt="Impact">
+                            </div>
+                            <div class="p-10 text-center flex flex-col items-center relative">
+                                <div
+                                    class="w-20 h-20 -mt-20 mb-6 rounded-2xl bg-white shadow-xl flex items-center justify-center text-teal-500 z-20 relative transform group-hover:-translate-y-2 transition duration-300">
+                                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <h3 class="text-2xl font-bold text-gray-900 mb-4">Impacto Social</h3>
+                                <p class="text-gray-500 text-base leading-relaxed">Mentoring y networking para conectar
+                                    talento joven con grandes empresas.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- DASHBOARD VIEW (Hidden by default) -->
+        <div id="dashboard-section" class="hidden min-h-screen bg-gray-50">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-12 py-12">
+                <!-- Dashboard Header -->
+                <div
+                    class="bg-gradient-to-r from-[#281AC8] to-[#6B5CFF] rounded-3xl p-8 lg:p-12 text-white mb-12 shadow-2xl relative overflow-hidden">
+                    <div
+                        class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2">
+                    </div>
+                    <div class="relative z-10 flex flex-col md:flex-row justify-between items-center gap-6">
+                        <div>
+                            <h2 class="text-3xl font-bold mb-2">Bienvenido a la Plataforma</h2>
+                            <p class="text-indigo-100 text-lg">Explora las vacantes disponibles y aplica hoy mismo.</p>
+                        </div>
+                        <div id="controls" class="hidden">
+                            <button id="create-vacancy-btn"
+                                class="bg-[#FB6962] hover:bg-[#ff554d] px-6 py-3 rounded-xl font-bold shadow-lg transition flex items-center gap-2 transform hover:scale-105">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                </svg>
+                                Nueva Vacante
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="mb-8 flex flex-col md:flex-row gap-4">
+                    <div class="flex-1 relative">
+                        <input type="text" id="filter-tech" placeholder="Buscar por tecnología (ej. React, Python)..."
+                            class="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:border-[#6B5CFF] focus:ring-4 focus:ring-[#6B5CFF]/10 outline-none transition">
+                        <svg class="w-5 h-5 text-gray-400 absolute left-4 top-3.5" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="w-full md:w-64">
+                        <select id="filter-seniority"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#6B5CFF] focus:ring-4 focus:ring-[#6B5CFF]/10 outline-none transition bg-white text-gray-600">
+                            <option value="">Todos los niveles</option>
+                            <option value="Junior">Junior</option>
+                            <option value="Mid">Mid</option>
+                            <option value="Senior">Senior</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Vacancies Grid -->
+                <div id="vacancies-list"
+                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-20"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGIN MODAL -->
+    <div id="login-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-[#281AC8]/60 backdrop-blur-sm transition"></div>
+        <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-md relative z-10 slide-up">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-bold text-gray-900">Iniciar Sesión</h2>
+                <button id="close-login-modal" class="text-gray-400 hover:text-gray-600 transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+            <form id="login-form" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Correo Electrónico</label>
+                    <input type="email" id="email"
+                        class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#6B5CFF] focus:ring-4 focus:ring-[#6B5CFF]/10 outline-none transition bg-gray-50 font-medium text-gray-900"
+                        value="admin@riwi.io">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Contraseña</label>
+                    <input type="password" id="password"
+                        class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#6B5CFF] focus:ring-4 focus:ring-[#6B5CFF]/10 outline-none transition bg-gray-50 font-medium text-gray-900"
+                        value="password123">
+                </div>
+                <button type="submit"
+                    class="w-full bg-gradient-to-r from-[#6B5CFF] to-[#8C52FF] hover:bg-[#5a4cf0] text-white py-4 rounded-xl font-bold shadow-lg shadow-indigo-200 transition transform hover:-translate-y-1">
+                    Ingresar a la Plataforma
+                </button>
+            </form>
+            <div id="login-error"
+                class="hidden mt-6 p-4 bg-red-50 text-red-600 text-sm rounded-xl text-center font-bold border border-red-100">
+            </div>
+            <div class="mt-6 text-center text-sm text-gray-500">
+                ¿No tienes cuenta? <button id="switch-to-register"
+                    class="text-[#6B5CFF] font-bold hover:underline">Regístrate aquí</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- REGISTER MODAL -->
+    <div id="register-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-[#281AC8]/60 backdrop-blur-sm transition"></div>
+        <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-md relative z-10 slide-up">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-bold text-gray-900">Crear Cuenta</h2>
+                <button id="close-register-modal" class="text-gray-400 hover:text-gray-600 transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+            <form id="register-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Nombre Completo</label>
+                    <input type="text" id="reg-name"
+                        class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#6B5CFF] focus:ring-4 focus:ring-[#6B5CFF]/10 outline-none transition bg-gray-50 font-medium text-gray-900"
+                        required>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Correo Electrónico</label>
+                    <input type="email" id="reg-email"
+                        class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#6B5CFF] focus:ring-4 focus:ring-[#6B5CFF]/10 outline-none transition bg-gray-50 font-medium text-gray-900"
+                        required>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Contraseña</label>
+                    <input type="password" id="reg-password"
+                        class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#6B5CFF] focus:ring-4 focus:ring-[#6B5CFF]/10 outline-none transition bg-gray-50 font-medium text-gray-900"
+                        required minlength="6">
+                </div>
+                <button type="submit"
+                    class="w-full bg-gradient-to-r from-[#6B5CFF] to-[#8C52FF] hover:bg-[#5a4cf0] text-white py-4 rounded-xl font-bold shadow-lg shadow-indigo-200 transition transform hover:-translate-y-1 mt-4">
+                    Registrarse
+                </button>
+            </form>
+            <div class="mt-6 text-center text-sm text-gray-500">
+                ¿Ya tienes cuenta? <button id="switch-to-login" class="text-[#6B5CFF] font-bold hover:underline">Inicia
+                    Sesión</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Vacancy Modal -->
+    <div id="create-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-[#281AC8]/60 backdrop-blur-sm"></div>
+        <div
+            class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl relative z-10 overflow-hidden slide-up max-h-[90vh] overflow-y-auto">
+            <div class="p-8 border-b border-gray-100 flex justify-between items-center sticky top-0 bg-white z-20">
+                <h2 class="text-2xl font-bold text-gray-900">Publicar Vacante</h2>
+                <button id="close-modal" class="text-gray-400 hover:text-gray-600">✕</button>
+            </div>
+            <form id="create-vacancy-form" class="p-8 space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="col-span-2"><label class="block text-sm font-bold mb-2">Título del Cargo</label><input
+                            type="text" id="v-title"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#6B5CFF] focus:ring-4 focus:ring-[#6B5CFF]/10 outline-none transition"
+                            required></div>
+                    <div class="col-span-2"><label class="block text-sm font-bold mb-2">Descripción
+                            Detallada</label><textarea id="v-desc" rows="4"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#6B5CFF] focus:ring-4 focus:ring-[#6B5CFF]/10 outline-none transition"
+                            required></textarea></div>
+                    <div><label class="block text-sm font-bold mb-2">Empresa</label><input type="text" id="v-company"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#6B5CFF] focus:ring-4 focus:ring-[#6B5CFF]/10 outline-none transition"
+                            required></div>
+                    <div><label class="block text-sm font-bold mb-2">Ubicación</label><input type="text" id="v-loc"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#6B5CFF] focus:ring-4 focus:ring-[#6B5CFF]/10 outline-none transition"
+                            required></div>
+                    <div><label class="block text-sm font-bold mb-2">Modalidad</label><select id="v-modality"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#6B5CFF] focus:ring-4 focus:ring-[#6B5CFF]/10 outline-none transition bg-white">
+                            <option value="remote">Remoto</option>
+                            <option value="hybrid">Híbrido</option>
+                            <option value="presential">Presencial</option>
+                        </select></div>
+                    <div><label class="block text-sm font-bold mb-2">Seniority</label><input type="text"
+                            id="v-seniority"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#6B5CFF] focus:ring-4 focus:ring-[#6B5CFF]/10 outline-none transition"
+                            required></div>
+                    <div><label class="block text-sm font-bold mb-2">Rango Salarial</label><input type="text"
+                            id="v-salary"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#6B5CFF] focus:ring-4 focus:ring-[#6B5CFF]/10 outline-none transition"
+                            required></div>
+                    <div><label class="block text-sm font-bold mb-2">Cupos Disponibles</label><input type="number"
+                            id="v-max"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#6B5CFF] focus:ring-4 focus:ring-[#6B5CFF]/10 outline-none transition"
+                            required min="1"></div>
+                    <div class="col-span-2"><label class="block text-sm font-bold mb-2">Tecnologías (separadas por
+                            coma)</label><input type="text" id="v-tech"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#6B5CFF] focus:ring-4 focus:ring-[#6B5CFF]/10 outline-none transition"
+                            required></div>
+                </div>
+                <div class="pt-6 border-t border-gray-100 flex justify-end gap-4">
+                    <button type="button"
+                        class="text-gray-500 font-bold hover:text-gray-700 transition">Cancelar</button>
+                    <button type="submit"
+                        class="bg-[#FB6962] text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:shadow-orange-200 transition transform hover:-translate-y-1">Publicar
+                        Vacante</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Applicants Modal -->
+    <div id="applicants-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-[#281AC8]/60 backdrop-blur-sm"></div>
+        <div
+            class="bg-white rounded-3xl shadow-2xl w-full max-w-3xl relative z-10 overflow-hidden slide-up max-h-[90vh] flex flex-col">
+            <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                <h2 class="text-xl font-bold text-gray-900">Postulantes para la Vacante</h2>
+                <button id="close-applicants-modal"
+                    class="text-gray-400 hover:text-gray-600 p-2 hover:bg-white rounded-full transition">✕</button>
+            </div>
+            <div class="p-6 overflow-y-auto flex-1">
+                <div id="applicants-list" class="space-y-4">
+                    <!-- Candidates will be loaded here -->
+                    <div class="text-center text-gray-500 py-10">Cargando postulantes...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Whatsapp Button (Hidden/Removed favor of Chatbot or kept next to it) -->
+    <!-- Kept as requested by user previously, but maybe secondary -->
+
+    <!-- CHATBOT WIDGET -->
+    <div class="fixed bottom-8 right-8 z-[90] flex flex-col items-end gap-4">
+
+        <!-- Chat Window -->
+        <div id="chat-window"
+            class="hidden bg-white w-[350px] h-[500px] rounded-3xl shadow-2xl flex flex-col overflow-hidden transition-all duration-300 transform origin-bottom-right border border-gray-100">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-[#6B5CFF] to-[#8C52FF] p-4 flex items-center gap-3">
+                <div class="bg-white/20 p-2 rounded-full">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                        </path>
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-white font-bold text-sm">Asistente Riwi</h3>
+                    <p class="text-indigo-100 text-xs flex items-center gap-1"><span
+                            class="w-2 h-2 bg-green-400 rounded-full inline-block"></span> En línea</p>
+                </div>
+            </div>
+
+            <!-- Messages -->
+            <div id="chat-messages" class="flex-1 bg-gray-50 p-4 overflow-y-auto">
+                <!-- Messages injected by JS -->
+            </div>
+
+            <!-- Input -->
+            <div class="p-4 bg-white border-t border-gray-100">
+                <form id="chat-form" class="flex gap-2">
+                    <input type="text" id="chat-input" placeholder="Escribe tu mensaje..."
+                        class="flex-1 px-4 py-2 bg-gray-100 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-[#6B5CFF]/20 transition">
+                    <button type="submit"
+                        class="bg-[#6B5CFF] text-white p-2 rounded-full hover:bg-[#5a4cf0] transition shadow-lg">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Toggle Button -->
+        <button id="chat-toggle-btn"
+            class="bg-gradient-to-r from-[#6B5CFF] to-[#8C52FF] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition duration-300 flex items-center justify-center group relative">
+            <span class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 border-2 border-white rounded-full"></span>
+            <div id="chat-icon">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z">
+                    </path>
+                </svg>
+            </div>
+        </button>
+    </div>
+
+    <!-- MAIN MODULE -->
+    <script type="module" src="./js/main.js"></script>
+</body>
+
+</html>
