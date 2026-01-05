@@ -14,31 +14,35 @@ export class ApiService {
     }
 
     static async request(endpoint, method = 'GET', body = null) {
-        // Use relative URL to avoid CORS issues if served from same origin, or explicit localhost if needed
-        // Use relative path to work in both local and production (since frontend is served by backend)
-        const res = await fetch(url, options);
+        // Use relative URL for production compatibility
+        const url = `/api${endpoint}`;
+        const options = { method, headers: this.headers };
+        if (body) options.body = JSON.stringify(body);
 
-        if (!res.ok) {
-            const errorBody = await res.json();
-            throw new Error(errorBody.message || `API Error: ${res.status}`);
+        try {
+            const res = await fetch(url, options);
+
+            if (!res.ok) {
+                const errorBody = await res.json();
+                throw new Error(errorBody.message || `API Error: ${res.status}`);
+            }
+
+            return await res.json();
+        } catch (error) {
+            console.error('API Request Failed:', error);
+            throw error;
         }
-
-        return await res.json();
-    } catch(error) {
-        console.error('API Request Failed:', error);
-        throw error;
     }
-}
 
     static get(endpoint) {
-    return this.request(endpoint, 'GET');
-}
+        return this.request(endpoint, 'GET');
+    }
 
     static post(endpoint, body) {
-    return this.request(endpoint, 'POST', body);
-}
+        return this.request(endpoint, 'POST', body);
+    }
 
     static patch(endpoint, body) {
-    return this.request(endpoint, 'PATCH', body);
-}
+        return this.request(endpoint, 'PATCH', body);
+    }
 }
